@@ -1,0 +1,42 @@
+#Who People Report to?
+
+MATCH
+(e:Employee)<-[:REPORTS_TO]-(sub:Employee)
+RETURN
+*
+
+
+#Who is in Robert's reporting chain?
+
+
+MATCH
+p=(e:Employee)<-[:REPORTS_TO*]-(sub:Employee)
+WHERE
+sub.firstname="Robert"
+RETURN
+p
+
+
+#Who's the Big Boss?
+
+
+MATCH
+p=(e:Employee)
+WHERE
+NOT(e)-[:Reports_TO]->()
+RETURN
+e.firstname as bigBoss
+
+
+
+#Comparing Employee Product Cross-Sell
+
+MATCH
+(choc:Product {productName: 'Chocolade'})
+<-[:PRODUCT]-(:Order)<-[:SOLD]-(employee),
+(employee)-[:SOLD]->(o2)-[:PRODUCT]->(other:Product)
+RETURN
+employee.firstname,other.productName, count(distinct o2) as count
+ORDER BY
+count DESC
+LIMIT 5;

@@ -10,27 +10,27 @@ multiple command at once. These command use the LOAD CSV command in Cypher to lo
 over HTTP from the Neo4j Github Repository
 
 
-// Create customers
+# Create customers
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/customers.csv" AS row
 CREATE (:Customer {companyName: row.CompanyName, customerID: row.CustomerID, fax: row.Fax, phone: row.Phone});
-// Create products
+# Create products
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/products.csv" AS row
 CREATE (:Product {productName: row.ProductName, productID: row.ProductID, unitPrice: toFloat(row.UnitPrice)});
-// Create suppliers
+# Create suppliers
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/suppliers.csv" AS row
 CREATE (:Supplier {companyName: row.CompanyName, supplierID: row.SupplierID});
-// Create employees
+# Create employees
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/employees.csv" AS row
 CREATE (:Employee {employeeID:row.EmployeeID,  firstName: row.FirstName, lastName: row.LastName, title: row.Title});
-// Create categories
+# Create categories
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/categories.csv" AS row
 CREATE (:Category {categoryID: row.CategoryID, categoryName: row.CategoryName, description: row.Description});
-// Create orders
+# Create orders
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/orders.csv" AS row
 MERGE (order:Order {orderID: row.OrderID}) ON CREATE SET order.shipName =  row.ShipName;
@@ -39,7 +39,7 @@ MERGE (order:Order {orderID: row.OrderID}) ON CREATE SET order.shipName =  row.S
 
 
 
-// Create indexes
+# Create indexes
 CREATE INDEX ON :Product(productID);
 CREATE INDEX ON :Product(productName);
 CREATE INDEX ON :Category(categoryID);
@@ -50,7 +50,7 @@ CREATE INDEX ON :Customer(customerName);
 
 
 
-// Create relationships
+# Create relationships
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/orders.csv" AS row
 MATCH (order:Order {orderID: row.OrderID})

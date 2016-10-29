@@ -11,35 +11,47 @@ over HTTP from the Neo4j Github Repository
 
 
 # Create customers
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/customers.csv" AS row
 CREATE (:Customer {companyName: row.CompanyName, customerID: row.CustomerID, fax: row.Fax, phone: row.Phone});
+```
 # Create products
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/products.csv" AS row
 CREATE (:Product {productName: row.ProductName, productID: row.ProductID, unitPrice: toFloat(row.UnitPrice)});
+```
 # Create suppliers
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/suppliers.csv" AS row
 CREATE (:Supplier {companyName: row.CompanyName, supplierID: row.SupplierID});
+```
 # Create employees
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/employees.csv" AS row
 CREATE (:Employee {employeeID:row.EmployeeID,  firstName: row.FirstName, lastName: row.LastName, title: row.Title});
+```
 # Create categories
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/categories.csv" AS row
 CREATE (:Category {categoryID: row.CategoryID, categoryName: row.CategoryName, description: row.Description});
+```
 # Create orders
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/orders.csv" AS row
 MERGE (order:Order {orderID: row.OrderID}) ON CREATE SET order.shipName =  row.ShipName;
-
+```
 
 
 
 
 # Create indexes
+```sql
 CREATE INDEX ON :Product(productID);
 CREATE INDEX ON :Product(productName);
 CREATE INDEX ON :Category(categoryID);
@@ -47,10 +59,11 @@ CREATE INDEX ON :Employee(employeeID);
 CREATE INDEX ON :Supplier(supplierID);
 CREATE INDEX ON :Customer(customerID);
 CREATE INDEX ON :Customer(customerName);
-
+```
 
 
 # Create relationships
+```sql
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/orders.csv" AS row
 MATCH (order:Order {orderID: row.OrderID})
@@ -82,7 +95,7 @@ LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/e
 MATCH (employee:Employee {employeeID: row.EmployeeID})
 MATCH (manager:Employee {employeeID: row.ReportsTo})
 MERGE (employee)-[:REPORTS_TO]->(manager);
-
+```
 
 
 

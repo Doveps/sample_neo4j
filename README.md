@@ -45,6 +45,7 @@ CREATE (:Category {categoryID: row.CategoryID, categoryName: row.CategoryName, d
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://github.com/Doveps/sample_neo4j/blob/master/orders.csv" AS row
 MERGE (order:Order {orderID: row.OrderID}) ON CREATE SET order.shipName =  row.ShipName;
+
 ```
 
 
